@@ -7,7 +7,7 @@
   - [ ] Other backend support
 - [ ] Other Distro Dockerfiles
 - [ ] Nightly Builds (DockerHub)
-- [ ] Documentation on building off of these images
+- [ ] Documentation on building off of these images for CI
 
 ## Usage
 
