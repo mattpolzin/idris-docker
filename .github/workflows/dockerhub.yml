@@ -1,0 +1,22 @@
+
+name: DockerHub Nightly
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron:  '* 0 * * *'
+
+jobs:
+  dockerhub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - run: docker build -t mattpolzin2/idris-docker:nightly --target idris-nightly -f Dockerfile.ubunutu . && \
+              docker push mattpolzin2/idris-docker:nightly
+
