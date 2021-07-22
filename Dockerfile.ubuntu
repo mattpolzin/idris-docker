@@ -85,14 +85,14 @@ FROM idris-040 as idris-nightly
 
 WORKDIR /build/
 
-RUN curl -L -o nightly.tar.gz https://github.com/idris-lang/Idris2/archive/refs/heads/master.tar.gz && \
+RUN curl -L -o nightly.tar.gz https://github.com/idris-lang/Idris2/archive/refs/heads/main.tar.gz && \
  tar -xzf nightly.tar.gz && \
- cd Idris2-master && \
+ cd Idris2-main && \
  make && \
  rm -rf ~/.idris2 && \
  make install
 
-WORKDIR /build/Idris2-master/
+WORKDIR /build/Idris2-main/
 
 RUN make clean && \
  make && \
