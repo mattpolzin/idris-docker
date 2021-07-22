@@ -17,6 +17,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: docker build -t mattpolzin2/idris-docker:nightly --target idris-nightly -f Dockerfile.ubunutu . && \
+      - run: docker build -t mattpolzin2/idris-docker:nightly --target idris-nightly -f Dockerfile.ubuntu . && \
               docker push mattpolzin2/idris-docker:nightly
 
