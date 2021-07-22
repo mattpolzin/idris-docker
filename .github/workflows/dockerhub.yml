@@ -13,10 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - uses: docker/login-action@v1.10.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: docker build -t mattpolzin2/idris-docker:nightly --target idris-nightly -f Dockerfile.ubuntu . && \
-              docker push mattpolzin2/idris-docker:nightly
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          push: true
+          tags: mattpolzin2/idris-docker:nightly
+          target: idris-nightly
+          file: Dockerfile.ubuntu
 
