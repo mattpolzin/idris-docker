@@ -1,0 +1,77 @@
+
+FROM ubuntu:focal as prereq
+
+echo "deb http://security.ubuntu.com/ubuntu hirsute universe" | sudo tee -a /etc/apt/sources.list
+
+apt-get update && apt-get install -y curl hirsute chezscheme gcc make vim rlwrap libgmp3-dev
+
+# ----------------------------------------------------
+FROM prereq as idris-022
+
+WORKDIR /build
+
+curl -L -o 022.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.2.2.tar.gz && /
+ tar -xzf 022.tar.gz && /
+ cd Idris2-0.2.2 && /
+ SCHEME=scheme make bootstrap && /
+ make install
+
+export PATH=$PATH:~/.idris2/bin
+
+make clean && /
+ make && /
+ make install
+
+cd ../.. && /
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network
+
+# ----------------------------------------------------
+FROM idris-022 as idris-030
+
+WORKDIR /build
+
+curl -L -o 030.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.3.0.tar.gz && /
+ tar -xzf 030.tar.gz && /
+ cd Idris2-0.3.0 && /
+ make && /
+ rm -rf ~/.idris2 && /
+ make install
+
+make clean && /
+ make && /
+ make install
+
+cd ../.. && /
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network
+
+# ----------------------------------------------------
+FROM idris-030 as idris-040
+
+WORKDIR /build
+
+curl -L -o 040.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.4.0.tar.gz && /
+ tar -xzf 040.tar.gz && /
+ cd Idris2-0.4.0 && /
+ make && /
+ rm -rf ~/.idris2 && /
+ make install
+
+make clean && /
+ make && /
+ make install
+
+cd ../.. && /
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network -p test
+
