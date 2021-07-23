@@ -3,16 +3,20 @@
 
 ## Project Progress
 - [x] Ubuntu Dockerfile
-  - [x] Chez backend support
+  - Backend support
+  - [x] Chez
+  - [x] RefC
+  - [x] Node
+  - [x] Javascript
   - [ ] Other backend support
 - [ ] Other Distro Dockerfiles
-- [ ] Nightly Builds (DockerHub)
+- [x] Nightly Builds (DockerHub)
 - [ ] Documentation on building off of these images for CI
 
 ## Usage
 
 ### Running Locally
-To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, or **nightly**) and run the following command from an environment with a Docker daemon installed and running:
+To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, or **nightly**) to specify after the colon and run the following command from an environment with a Docker daemon installed and running:
 
 ```shell
 docker run -ti mattpolzin2/idris-docker:latest

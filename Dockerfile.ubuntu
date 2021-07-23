@@ -4,6 +4,10 @@ FROM ubuntu:focal as prereq
 RUN apt-get update && \
  apt-get install -y curl chezscheme gcc make vim rlwrap libgmp3-dev
 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+
+RUN apt-get install -y nodejs
+
 # ----------------------------------------------------
 FROM prereq as idris-022
 
