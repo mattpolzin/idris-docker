@@ -1,0 +1,111 @@
+
+FROM node:14-alpine3.11 as prereq
+
+RUN apk upgrade --no-cache && \
+ apk add --no-cache curl musl-dev libc-dev gcc make vim gmp-dev linux-headers # binutils-gold gnupg libstdc++ 
+
+RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+RUN apk add --no-cache chez-scheme@testing 
+
+# ----------------------------------------------------
+FROM prereq as idris-022
+
+WORKDIR /build/
+
+RUN curl -L -o 022.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.2.2.tar.gz && \
+ tar -xzf 022.tar.gz && \
+ cd Idris2-0.2.2 && \
+ SCHEME=chez make bootstrap && \
+ make install
+
+WORKDIR /build/Idris2-0.2.2/
+
+RUN ln -s /root/.idris2/bin/idris2 /usr/local/bin/idris2
+
+RUN make clean && \
+ make && \
+ make install
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network
+
+# ----------------------------------------------------
+FROM idris-022 as idris-030
+
+WORKDIR /build/
+
+RUN curl -L -o 030.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.3.0.tar.gz && \
+ tar -xzf 030.tar.gz && \
+ cd Idris2-0.3.0 && \
+ make && \
+ rm -rf ~/.idris2 && \
+ make install
+
+WORKDIR /build/Idris2-0.3.0/
+
+RUN make clean && \
+ make && \
+ make install
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network
+
+# ----------------------------------------------------
+FROM idris-030 as idris-040
+
+WORKDIR /build/
+
+RUN curl -L -o 040.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.4.0.tar.gz && \
+ tar -xzf 040.tar.gz && \
+ cd Idris2-0.4.0 && \
+ make && \
+ rm -rf ~/.idris2 && \
+ make install
+
+WORKDIR /build/Idris2-0.4.0/
+
+RUN make clean && \
+ make && \
+ make install
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network -p test
+
+# ----------------------------------------------------
+FROM idris-040 as idris-nightly
+
+WORKDIR /build/
+
+RUN curl -L -o nightly.tar.gz https://github.com/idris-lang/Idris2/archive/refs/heads/main.tar.gz && \
+ tar -xzf nightly.tar.gz && \
+ cd Idris2-main && \
+ make && \
+ rm -rf ~/.idris2 && \
+ make install
+
+WORKDIR /build/Idris2-main/
+
+RUN make clean && \
+ make && \
+ make install
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p contrib -p network -p test
+
