@@ -44,6 +44,34 @@ $ idris2 --build hello-world.ipkg
 $ [...]
 ```
 
+### Idv
+In addition to different Docker images for each version of Idris 2, there is an image tagged `idv` that has the Idris Version Manager preinstalled in addition to all Idris 2 versions. This image allows you to switch between different Idris 2 versions with a single command, but the Docker image is larger because there are multiple Idris 2 versions pre-installed.
+
+```shell
+docker run -ti mattpolzin2/idris-docker:idv bash
+$ idv list
+* system (installed)
+  0.4.0  (installed)
+  0.3.0  (installed)
+  0.2.2  (installed)
+  0.2.1
+  0.2.0
+$ idv select 0.3.0
+
+Idris 2 version 0.3.0 selected.
+
+$ idris2 --version
+Idris 2, version 0.3.0
+$ idv select system
+
+System copy of Idris 2 selected.
+
+$ idris2 --version
+Idris 2, version 0.4.0-nightly
+```
+
+Notice that the `system` version of Idris 2 is the version you will find in the `nightly` Docker image (i.e. it is _newer_ than the lastest stable version, which is also installed and selectable via Idv).
+
 ## Building Idris Docker Images
 From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, or **idris-nightly**), and then:
 
