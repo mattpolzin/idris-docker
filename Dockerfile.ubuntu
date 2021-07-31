@@ -89,6 +89,8 @@ FROM idris-040 as idris-nightly
 
 WORKDIR /build/
 
+RUN export VERSION_TAG=nightly # spoofed
+
 RUN curl -L -o nightly.tar.gz https://github.com/idris-lang/Idris2/archive/refs/heads/main.tar.gz && \
  tar -xzf nightly.tar.gz && \
  cd Idris2-main && \
@@ -100,6 +102,29 @@ WORKDIR /build/Idris2-main/
 
 RUN make clean && \
  make && \
+ make install && \
+ make install-api
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p idris2 -p contrib -p network -p test
+
+# ----------------------------------------------------
+FROM idris-nightly as idris-idv
+
+WORKDIR /build/
+
+RUN export VERSION_TAG=
+
+RUN apt-get install -y git
+
+RUN curl -L -o idv.tar.gz https://github.com/mattpolzin/idv/archive/refs/heads/main.tar.gz && \
+ tar -xzf idv.tar.gz && \
+ cd idv-main && \
+ make && \
  make install
 
 RUN cd ../.. && \
@@ -107,5 +132,14 @@ RUN cd ../.. && \
 
 WORKDIR /root/
 
-CMD idris2 -p contrib -p network -p test
+RUN ln -s /root/.idv/bin/idv /usr/local/bin/idv && \
+ idv select system && \
+ rm /usr/local/bin/idris2 && \
+ ln -s /root/.idv/bin/idris2 /usr/local/bin/idris2
+
+RUN idv install 0.2.2 --api && \
+ idv install 0.3.0 --api && \
+ idv install 0.4.0 --api
+
+CMD bash -c 'idv list && idris2'
 
