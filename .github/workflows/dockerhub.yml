@@ -21,12 +21,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push Docker image
+      - name: Build and push nightly Docker image
         uses: docker/build-push-action@v2.6.1
         with:
           context: .
           push: true
           tags: mattpolzin2/idris-docker:nightly
           target: idris-nightly
+          file: Dockerfile.ubuntu
+      - name: Build and push Idv Docker image
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          push: true
+          tags: mattpolzin2/idris-docker:idv
+          target: idris-idv
           file: Dockerfile.ubuntu
 

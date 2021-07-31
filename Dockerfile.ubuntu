@@ -35,7 +35,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network
 
 # ----------------------------------------------------
-FROM idris-022 as idris-030
+# FROM idris-022 as idris-030
+FROM mattpolzin2/idris-docker:0.2.2 as idris-030
 
 WORKDIR /build/
 
@@ -60,7 +61,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network
 
 # ----------------------------------------------------
-FROM idris-030 as idris-040
+# FROM idris-030 as idris-040
+FROM mattpolzin2/idris-docker:0.3.0 as idris-040
 
 WORKDIR /build/
 
@@ -85,7 +87,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-FROM idris-040 as idris-nightly
+# FROM idris-040 as idris-nightly
+FROM mattpolzin2/idris-docker:0.4.0 as idris-nightly
 
 WORKDIR /build/
 
@@ -113,7 +116,8 @@ WORKDIR /root/
 CMD idris2 -p idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-FROM idris-nightly as idris-idv
+# FROM idris-nightly as idris-idv
+FROM mattpolzin2/idris-docker:nightly as idris-idv
 
 WORKDIR /build/
 
@@ -141,5 +145,5 @@ RUN idv install 0.2.2 --api && \
  idv install 0.3.0 --api && \
  idv install 0.4.0 --api
 
-CMD bash -c 'idv list && idris2'
+CMD bash -c 'echo "Idris 2 Versions:" && idv list && echo "------" && idris2'
 
