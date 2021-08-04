@@ -92,7 +92,7 @@ FROM mattpolzin2/idris-docker:0.4.0 as idris-nightly
 
 WORKDIR /build/
 
-RUN export VERSION_TAG=nightly # spoofed
+ENV VERSION_TAG nightly
 
 RUN curl -L -o nightly.tar.gz https://github.com/idris-lang/Idris2/archive/refs/heads/main.tar.gz && \
  tar -xzf nightly.tar.gz && \
@@ -121,7 +121,7 @@ FROM mattpolzin2/idris-docker:nightly as idris-idv
 
 WORKDIR /build/
 
-RUN export VERSION_TAG=
+ENV VERSION_TAG ''
 
 RUN apt-get install -y git
 
