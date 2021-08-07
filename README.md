@@ -11,7 +11,7 @@
   - [ ] Other backend support
 - [ ] Other Distro Dockerfiles
 - [x] Nightly Builds (DockerHub)
-- [ ] Documentation on building off of these images for CI
+- [x] Documentation on building off of these images for CI
 
 ## Usage
 
@@ -71,6 +71,31 @@ Idris 2, version 0.4.0-nightly
 ```
 
 Notice that the `system` version of Idris 2 is the version you will find in the `nightly` Docker image (i.e. it is _newer_ than the lastest stable version, which is also installed and selectable via Idv).
+
+### Using for GitHub Actions
+These Docker images can be a great foundation for GitHub Actions based testing of Idris code. Because Idris is already installed in these images, you save time over downloading or even building Idris as part of the GitHub Action itself.
+
+Here's an example of what a GitHub Action workflow file might look like (including installing `git` into the container, because `git` is not needed by the Idris container otherwise).
+
+```yaml
+name: Tests
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    container: mattpolzin2/idris-docker:nightly
+
+    steps:
+      - name: Install Dependencies
+        run: apt-get -y install git
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: make
+      - name: Test
+        run: make test
+```
 
 ## Building Idris Docker Images
 From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, or **idris-nightly**), and then:
