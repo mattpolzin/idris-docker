@@ -87,8 +87,35 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-040 as idris-nightly
-FROM mattpolzin2/idris-docker:0.4.0 as idris-nightly
+# FROM idris-040 as idris-051
+FROM mattpolzin2/idris-docker:0.4.0 as idris-051
+
+WORKDIR /build/
+
+RUN curl -L -o 051.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.5.1.tar.gz && \
+ tar -xzf 051.tar.gz && \
+ cd Idris2-0.5.1 && \
+ make && \
+ rm -rf ~/.idris2 && \
+ make install
+
+WORKDIR /build/Idris2-0.5.1/
+
+RUN make clean && \
+ make && \
+ make install && \
+ make install-api
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p idris2 -p contrib -p network -p test
+
+# ----------------------------------------------------
+# FROM idris-050 as idris-nightly
+FROM mattpolzin2/idris-docker:0.5.1 as idris-nightly
 
 WORKDIR /build/
 
@@ -142,8 +169,9 @@ RUN ln -s /root/.idv/bin/idv /usr/local/bin/idv && \
  ln -s /root/.idv/bin/idris2 /usr/local/bin/idris2
 
 RUN idv install 0.2.2 --api && \
- idv install 0.3.0 --api && \
- idv install 0.4.0 --api
+    idv install 0.3.0 --api && \
+    idv install 0.4.0 --api && \
+    idv install 0.5.1 --api
 
 CMD bash -c 'echo "Idris 2 Versions:" && idv list && echo "------" && idris2 -p idris2 -p contrib -p network -p test'
 
