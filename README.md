@@ -16,7 +16,7 @@
 ## Usage
 
 ### Running Locally
-To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, or **nightly**) to specify after the colon and run the following command from an environment with a Docker daemon installed and running:
+To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, **0.5.1**, or **nightly**) to specify after the colon and run the following command from an environment with a Docker daemon installed and running:
 
 ```shell
 docker run -ti mattpolzin2/idris-docker:latest
@@ -51,6 +51,7 @@ In addition to different Docker images for each version of Idris 2, there is an 
 docker run -ti mattpolzin2/idris-docker:idv bash
 $ idv list
 * system (installed)
+  0.5.1  (installed)
   0.4.0  (installed)
   0.3.0  (installed)
   0.2.2  (installed)
@@ -98,7 +99,7 @@ jobs:
 ```
 
 ## Building Idris Docker Images
-From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, or **idris-nightly**), and then:
+From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, **idris-051**, **idris-nightly**, or **idv**), and then:
 
 ```shell
 docker build -t local/idris-docker:nightly --target idris-nightly -f Dockerfile.ubuntu .
