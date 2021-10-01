@@ -150,7 +150,7 @@ WORKDIR /build/
 
 ENV VERSION_TAG ''
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y ca-certificates git
 
 RUN curl -L -o idv.tar.gz https://github.com/mattpolzin/idv/archive/refs/heads/main.tar.gz && \
  tar -xzf idv.tar.gz && \
