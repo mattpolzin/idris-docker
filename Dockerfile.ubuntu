@@ -2,7 +2,7 @@
 FROM ubuntu:focal as prereq
 
 RUN apt-get update && \
- apt-get install -y curl chezscheme gcc make vim rlwrap libgmp3-dev
+ apt-get install -y curl chezscheme gcc make vim rlwrap libgmp3-dev ca-certificates
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
