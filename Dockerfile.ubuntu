@@ -134,7 +134,8 @@ WORKDIR /build/Idris2-main/
 RUN make clean && \
  make && \
  make install && \
- make install-api
+ make install-with-src-api && \
+ make install-with-src-libs
 
 RUN cd ../.. && \
  rm -rf ./build
@@ -169,10 +170,10 @@ RUN ln -s /root/.idv/bin/idv /usr/local/bin/idv && \
  rm /usr/local/bin/idris2 && \
  ln -s /root/.idv/bin/idris2 /usr/local/bin/idris2
 
-RUN idv install 0.2.2 --api && \
+RUN idv install 0.2.2 && \
     idv install 0.3.0 --api && \
-    idv install 0.4.0 --api && \
-    idv install 0.5.1 --api
+    idv install 0.4.0 --api --lsp && \
+    idv install 0.5.1 --api --lsp
 
 CMD bash -c 'echo "Idris 2 Versions:" && idv list && echo "------" && idris2 -p idris2 -p contrib -p network -p test'
 
