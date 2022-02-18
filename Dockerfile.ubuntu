@@ -1,8 +1,9 @@
 
 FROM ubuntu:focal as prereq
 
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
- apt-get install -y curl chezscheme gcc make vim rlwrap libgmp3-dev ca-certificates
+ apt-get install -y curl chezscheme racket gcc make vim rlwrap libgmp3-dev ca-certificates
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
