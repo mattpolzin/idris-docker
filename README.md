@@ -5,13 +5,13 @@
 - [x] Ubuntu Dockerfile
   - Backend support
   - [x] Chez
+  - [x] Racket
   - [x] RefC
   - [x] Node
   - [x] Javascript
   - [ ] Other backend support
 - [ ] Other Distro Dockerfiles
 - [x] Nightly Builds (DockerHub)
-- [x] Documentation on building off of these images for CI
 
 ## Usage
 
@@ -42,6 +42,27 @@ docker run -ti -v "$(pwd)/hello-world:/root/hello-world" mattpolzin2/idris-docke
 $ cd hello-world
 $ idris2 --build hello-world.ipkg
 $ [...]
+```
+
+### Choosing a backend
+The Idris compiler shipped with this Docker image is built using Chez Scheme, but you can choose to compile your programs using a number of different backends.
+
+This Docker Image supports the following backends currently:
+```shell
+# Chez Scheme (default)
+idris2 --build my-stuff.ipkg
+
+# Racket
+idris2 --cg racket my-stuff.ipkg
+
+# C (only available from Idris 2 v0.3.0 onward)
+idris2 --cg refc --build my-stuff.ipkg
+
+# NodeJS
+idris2 --cg node --build my-stuff.ipkg
+
+# Javascript
+idris2 --cg javascript --build my-stuff.ipkg
 ```
 
 ### Idv
