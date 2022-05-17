@@ -40,4 +40,12 @@ jobs:
           tags: mattpolzin2/idris-docker:idv
           target: idris-idv
           file: Dockerfile.ubuntu
+      - name: Build and push Katla Docker image
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          push: true
+          tags: mattpolzin2/idris-docker:nightly-katla
+          target: katla
+          file: Dockerfile.ubuntu.katla
 
