@@ -1,0 +1,23 @@
+FROM mattpolzin2/idris-docker:nightly AS katla
+
+RUN apt-get install -y markdown
+
+WORKDIR /build/
+
+RUN curl -L -o collie.tar.gz https://github.com/ohad/collie/archive/refs/heads/main.tar.gz && \
+ tar -xzf collie.tar.gz && \
+ cd collie-main && \
+ make install
+
+RUN curl -L -o idrall.tar.gz https://github.com/alexhumphreys/idrall/archive/refs/heads/main.tar.gz && \
+ tar -xzf idrall.tar.gz && \
+ cd idrall-main && \
+ make install
+
+RUN curl -L -o katla.tar.gz https://github.com/idris-community/katla/archive/refs/heads/main.tar.gz && \
+ tar -xzf katla.tar.gz && \
+ cd katla-main && \
+ make && \
+ ln -s /build/katla-main/build/exec/katla /usr/local/bin/katla
+
+ CMD katla
