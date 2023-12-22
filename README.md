@@ -16,7 +16,7 @@
 ## Usage
 
 ### Running Locally
-To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, **0.5.1**, or **nightly**) to specify after the colon and run the following command from an environment with a Docker daemon installed and running:
+To run one of the Ubuntu Idris docker images, pick a supported version tag (**0.2.2**, **0.3.0**, **0.4.0**, **0.5.1**, **0.6.0**, **0.7.0**, or **nightly**) to specify after the colon and run the following command from an environment with a Docker daemon installed and running:
 
 ```shell
 docker run -ti mattpolzin2/idris-docker:latest
@@ -72,24 +72,26 @@ In addition to different Docker images for each version of Idris 2, there is an 
 docker run -ti mattpolzin2/idris-docker:idv bash
 $ idv list
 * system (installed)
+  0.7.0  (installed)
+  0.6.0  (installed)
   0.5.1  (installed)
-  0.4.0  (installed)
-  0.3.0  (installed)
-  0.2.2  (installed)
+  0.4.0
+  0.3.0
+  0.2.2
   0.2.1
   0.2.0
 $ idv select 0.3.0
 
-Idris 2 version 0.3.0 selected.
+Idris 2 version 0.6.0 selected.
 
 $ idris2 --version
-Idris 2, version 0.3.0
+Idris 2, version 0.6.0
 $ idv select system
 
 System copy of Idris 2 selected.
 
 $ idris2 --version
-Idris 2, version 0.4.0-nightly
+Idris 2, version 0.7.0-nightly
 ```
 
 Notice that the `system` version of Idris 2 is the version you will find in the `nightly` Docker image (i.e. it is _newer_ than the lastest stable version, which is also installed and selectable via Idv).
@@ -120,7 +122,7 @@ jobs:
 ```
 
 ## Building Idris Docker Images
-From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, **idris-051**, **idris-nightly**, or **idv**), and then:
+From the root directory of this repository, pick a stage to build (**idris-022**, **idris-030**, **idris-040**, **idris-051**, **idris-060**, **idris-070**, **idris-nightly**, or **idv**), and then:
 
 ```shell
 docker build -t local/idris-docker:nightly --target idris-nightly -f Dockerfile.ubuntu .
