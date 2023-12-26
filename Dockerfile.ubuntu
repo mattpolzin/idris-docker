@@ -170,7 +170,7 @@ CMD idris2 -p idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
 # FROM idris-070 as idris-nightly
-FROM mattpolzin2/idris-docker:0.6.0 as idris-nightly
+FROM mattpolzin2/idris-docker:0.7.0 as idris-nightly
 
 WORKDIR /build/
 
