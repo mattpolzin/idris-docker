@@ -208,9 +208,11 @@ ENV VERSION_TAG ''
 
 RUN apt-get update && apt-get install -y git
 
-RUN curl -L -o idv.tar.gz https://github.com/mattpolzin/idv/archive/refs/heads/main.tar.gz && \
+ENV IDV_BRANCH main
+
+RUN curl -L -o idv.tar.gz https://github.com/mattpolzin/idv/archive/refs/heads/${IDV_BRANCH}.tar.gz && \
  tar -xzf idv.tar.gz && \
- cd idv-main && \
+ cd idv-${IDV_BRANCH} && \
  make && \
  make install
 
