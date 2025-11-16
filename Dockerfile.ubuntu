@@ -1,5 +1,5 @@
 
-FROM ubuntu:jammy as prereq
+FROM ubuntu:jammy AS prereq
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -10,7 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 
 # ----------------------------------------------------
-FROM prereq as idris-022
+FROM prereq AS idris-022
 
 WORKDIR /build/
 
@@ -36,8 +36,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network
 
 # ----------------------------------------------------
-# FROM idris-022 as idris-030
-FROM mattpolzin2/idris-docker:0.2.2 as idris-030
+# FROM idris-022 AS idris-030
+FROM mattpolzin2/idris-docker:0.2.2 AS idris-030
 
 WORKDIR /build/
 
@@ -62,8 +62,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network
 
 # ----------------------------------------------------
-# FROM idris-030 as idris-040
-FROM mattpolzin2/idris-docker:0.3.0 as idris-040
+# FROM idris-030 AS idris-040
+FROM mattpolzin2/idris-docker:0.3.0 AS idris-040
 
 WORKDIR /build/
 
@@ -88,8 +88,8 @@ WORKDIR /root/
 CMD idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-040 as idris-051
-FROM mattpolzin2/idris-docker:0.4.0 as idris-051
+# FROM idris-040 AS idris-051
+FROM mattpolzin2/idris-docker:0.4.0 AS idris-051
 
 WORKDIR /build/
 
@@ -115,8 +115,8 @@ WORKDIR /root/
 CMD idris2 -p idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-051 as idris-060
-FROM mattpolzin2/idris-docker:0.5.1 as idris-060
+# FROM idris-051 AS idris-060
+FROM mattpolzin2/idris-docker:0.5.1 AS idris-060
 
 WORKDIR /build/
 
@@ -142,8 +142,8 @@ WORKDIR /root/
 CMD idris2 -p idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-060 as idris-070
-FROM mattpolzin2/idris-docker:0.6.0 as idris-070
+# FROM idris-060 AS idris-070
+FROM mattpolzin2/idris-docker:0.6.0 AS idris-070
 
 WORKDIR /build/
 
@@ -169,8 +169,38 @@ WORKDIR /root/
 CMD idris2 -p idris2 -p contrib -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-070 as idris-nightly
-FROM mattpolzin2/idris-docker:0.7.0 as idris-nightly
+# FROM idris-070 AS idris-080
+FROM mattpolzin2/idris-docker:0.7.0 AS idris-080
+
+WORKDIR /build/
+
+ENV VERSION_TAG nightly
+
+RUN curl -L -o 080.tar.gz https://github.com/idris-lang/Idris2/archive/refs/tags/v0.8.0.tar.gz && \
+ tar -xzf 080.tar.gz && \
+ cd Idris2-0.8.0 && \
+ make && \
+ rm -rf ~/.idris2 && \
+ make install
+
+WORKDIR /build/Idris2-0.8.0/
+
+RUN make clean && \
+ make && \
+ make install && \
+ make install-with-src-api && \
+ make install-with-src-libs
+
+RUN cd ../.. && \
+ rm -rf ./build
+
+WORKDIR /root/
+
+CMD idris2 -p idris2 -p contrib -p linear -p network -p test
+
+# ----------------------------------------------------
+# FROM idris-080 AS idris-nightly
+FROM mattpolzin2/idris-docker:0.8.0 AS idris-nightly
 
 WORKDIR /build/
 
@@ -196,11 +226,11 @@ RUN cd ../.. && \
 
 WORKDIR /root/
 
-CMD idris2 -p idris2 -p contrib -p network -p test
+CMD idris2 -p idris2 -p contrib -p linear -p network -p test
 
 # ----------------------------------------------------
-# FROM idris-nightly as idris-idv
-FROM mattpolzin2/idris-docker:nightly as idris-idv
+# FROM idris-nightly AS idris-idv
+FROM mattpolzin2/idris-docker:nightly AS idris-idv
 
 WORKDIR /build/
 
