@@ -1,11 +1,11 @@
 
-FROM ubuntu:jammy AS prereq
+FROM ubuntu:resolute AS prereq
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
  apt-get install -y curl chezscheme racket gcc make vim rlwrap libgmp3-dev ca-certificates
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 
 RUN apt-get install -y nodejs
 
